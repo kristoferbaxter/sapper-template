@@ -2,6 +2,7 @@ const config = require('sapper/webpack/config.js');
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const BrotliPlugin = require('brotli-webpack-plugin');
 
 module.exports = {
 	entry: config.client.entry(),
@@ -44,7 +45,13 @@ module.exports = {
 		config.dev && new webpack.HotModuleReplacementPlugin(),
 		!config.dev && new ExtractTextPlugin('main.css'),
 		!config.dev && new webpack.optimize.ModuleConcatenationPlugin(),
-		!config.dev && new UglifyJSPlugin()
+		!config.dev && new UglifyJSPlugin(),
+		!config.dev && new BrotliPlugin({
+			asset: '[fileWithoutExt].br.[ext][query]',
+			test: /\.(js|css)$/,
+			threshold: 10240,
+			minRatio: 0.8
+	})
 	].filter(Boolean),
 	devtool: config.dev ? 'inline-source-map' : false
 };
