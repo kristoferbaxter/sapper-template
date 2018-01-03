@@ -49,9 +49,7 @@ module.exports = {
 		!config.dev && new BrotliPlugin({
 			asset: '[fileWithoutExt].br.[ext][query]',
 			test: /\.(js|css)$/,
-			threshold: 10240,
-			minRatio: 0.8
-	})
+		})
 	].filter(Boolean),
 	devtool: config.dev ? 'inline-source-map' : false
 };
